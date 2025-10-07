@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2179731754865779"
+     crossorigin="anonymous"></script>
+    
+    <meta charset="UTF-8">
+    <title>الإعلانات</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Dark Mode Variables */
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-tertiary: #495057;
+            --border-primary: #e9ecef;
+            --border-secondary: #dee2e6;
+            --shadow-primary: rgba(0,0,0,0.08);
+            --shadow-secondary: rgba(0,0,0,0.12);
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-tertiary: #6e7681;
+            --border-primary: #30363d;
+            --border-secondary: #21262d;
+            --shadow-primary: rgba(0,0,0,0.3);
+            --shadow-secondary: rgba(0,0,0,0.4);
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0; 
+            padding: 20px; 
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .ads-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .ad-card { 
+            position: relative; 
+            background: var(--bg-secondary);
+            border-radius: 12px; 
+            box-shadow: 0 2px 10px var(--shadow-primary);
+            overflow: hidden; 
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-primary);
+            /* تحسين الأداء في المتصفحات الحديثة */
+            content-visibility: auto;
+            contain-intrinsic-size: 400px;
+        }
+        .ad-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 25px var(--shadow-secondary);
+            border-color: #007bff;
+        }
+        .ad-images { 
+            padding: 15px; 
+            display: flex; 
+            gap: 10px; 
+            align-items: center;
+            overflow-x: auto;
+        }
+        .ad-images img { 
+            width: 160px; 
+            height: 160px; 
+            object-fit: cover; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+            border: 2px solid #f8f9fa;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .ad-images img { opacity: 0; transition: opacity 0.28s ease; }
+        .ad-images img.img-loaded { opacity: 1; }
+        .ad-images img:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+        .ad-video { 
+            padding: 15px; 
+            display: flex; 
+            justify-content: center;
+        }
+        .ad-video video { 
+            width: 100%; 
+            max-width: 400px;
+            height: auto;
+            border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 2px solid #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        .ad-video video:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+        .ad-video iframe {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 16/9;
+            border: 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 2px solid #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        .ad-video iframe:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+        .ad-details { 
+            padding: 20px; 
+            background: var(--bg-secondary);
+        }
+        .status-badge { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            padding: 10px 20px; 
+            color: white; 
+            border-radius: 25px; 
+            font-size: 14px; 
+            font-weight: 800; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255,255,255,0.4);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            min-width: 80px;
+            text-align: center;
+        }
+        .open { 
+            background: linear-gradient(135deg, #10b981, #059669); 
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        .closed { 
+            background: linear-gradient(135deg, #ef4444, #dc2626); 
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+        .prayer { 
+            background: linear-gradient(135deg, #f59e0b, #d97706); 
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+        .preparation { 
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8); 
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+        .unknown { 
+            background: linear-gradient(135deg, #6b7280, #4b5563); 
+            box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+        }
+        .hidden {
+            display: none !important;
+        }
+        
+        .status-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .coupon { 
+            background-color: #fff3cd; 
+            padding: 10px 15px; 
+            border-radius: 6px; 
+            display: inline-block; 
+            margin-top: 10px; 
+            font-weight: 600; 
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        h2 { 
+            text-align: center; 
+            color: var(--text-primary); 
+            margin-bottom: 30px; 
+            font-size: 2.5em; 
+            font-weight: 600;
+        }
+        /* Skeleton styles */
+        .skeleton {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-tertiary);
+        }
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background: linear-gradient(90deg, rgba(233,236,239,0) 0%, rgba(255,255,255,0.6) 50%, rgba(233,236,239,0) 100%);
+            animation: shimmer 1.2s infinite;
+        }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+        .loader {
+            max-width: 1200px;
+            margin: 0 auto 10px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .spinner {
+            width: 22px;
+            height: 22px;
+            border: 3px solid #e9ecef;
+            border-top-color: #007bff;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        h3 { 
+            color: var(--text-primary); 
+            margin-bottom: 15px; 
+            font-size: 1.4em; 
+            font-weight: 600;
+        }
+        p { 
+            color: var(--text-secondary); 
+            line-height: 1.6; 
+            margin-bottom: 12px; 
+            font-size: 1em;
+        }
+        strong { 
+            color: var(--text-tertiary); 
+            font-weight: 600;
+        }
+        .dev-footer {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .dev-banner {
+            background: linear-gradient(135deg, #0d6efd, #845ef7);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 12px 16px;
+            box-shadow: 0 8px 24px rgba(13,110,253,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .dev-banner a {
+            background: rgba(255,255,255,0.15);
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background-color 0.2s ease;
+        }
+        .dev-banner a:hover { background: rgba(255,255,255,0.25); }
+        
+        @media (max-width: 768px) {
+            .ads-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 15px;
+            }
+            .ad-card {
+                margin: 0 5px;
+            }
+            h2 {
+                font-size: 2em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            .ad-images {
+                padding: 10px;
+                gap: 8px;
+            }
+            .ad-details {
+                padding: 15px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+        }
+        .back-bar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-primary);
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px var(--shadow-primary);
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 24px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .back-btn:hover::before {
+            left: 100%;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        .back-btn:active {
+            transform: translateY(0) scale(1.02);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .back-btn svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .back-btn:hover svg {
+            transform: translateX(-3px);
+        }
+        
+        .visitor-stats {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .visitor-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+            border-radius: 16px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            min-width: 80px;
+        }
+        
+        .visitor-stat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));
+        }
+        
+        .visitor-stat .number {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        
+        .visitor-stat .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .dark-mode-toggle {
+            margin-left: 16px;
+        }
+        
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            user-select: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        .lightbox-close:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(1.05);
+        }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        .lightbox-prev, .lightbox-next {
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 20px;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            margin: 0 20px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-prev:hover, .lightbox-next:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .lightbox-counter {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        @keyframes pulseLogo {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+        }
+        .active-ads { color: #4f46e5 !important; }
+        .active-login { color: #059669 !important; }
+        .active-contact { color: #2563eb !important; }
+        /* Mobile bottom bar */
+        .mobile-bottom-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 999;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-primary);
+            box-shadow: 0 -4px 12px var(--shadow-primary);
+            display: none;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .mobile-bottom-bar .inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .mobile-bottom-bar a {
+            flex: 1;
+            text-decoration: none;
+            color: #334155;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        .mobile-bottom-bar a:hover { color: #0ea5e9; }
+        .mobile-bottom-bar svg { width: 24px; height: 24px; }
+        
+        /* Dark mode toggle button */
+        .dark-mode-toggle {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: #cbd5e1;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border: none;
+            outline: none;
+        }
+        
+        .dark-mode-toggle.active {
+            background: #3b82f6;
+        }
+        
+        .dark-mode-toggle::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dark-mode-toggle.active::before {
+            transform: translateX(24px);
+        }
+        
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .dark-mode-toggle .sun-icon {
+            left: 4px;
+            color: #f59e0b;
+        }
+        
+        .dark-mode-toggle .moon-icon {
+            right: 4px;
+            color: #64748b;
+        }
+        
+        .dark-mode-toggle.active .sun-icon {
+            opacity: 0;
+        }
+        
+        .dark-mode-toggle:not(.active) .moon-icon {
+            opacity: 0;
+        }
+        
+        @media (max-width: 640px) {
+            body { padding-bottom: 80px; }
+            .mobile-bottom-bar { display: block; }
+            
+            .back-bar {
+                padding: 12px 16px;
+                margin: 0 auto 16px;
+                border-radius: 0 0 16px 16px;
+            }
+            
+            .back-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+                gap: 8px;
+            }
+            
+            .visitor-stats {
+                gap: 12px;
+            }
+            
+            .visitor-stat {
+                padding: 8px 12px;
+                min-width: 60px;
+            }
+            
+            .visitor-stat .number {
+                font-size: 18px;
+            }
+            
+            .visitor-stat .label {
+                font-size: 10px;
+            }
+            
+            .dark-mode-toggle {
+                margin-left: 8px;
+                width: 40px;
+                height: 20px;
+            }
+            
+            .dark-mode-toggle::before {
+                width: 16px;
+                height: 16px;
+            }
+            
+            .dark-mode-toggle.active::before {
+                transform: translateX(20px);
+            }
+        }
+    </style>
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "8641cb20-0c5e-4b10-acb8-bc641c195be5",
+      });
+    });
+  </script>
+
+
+    
+</head>
+<body>
+
+<div class="back-bar">
+    <button id="backBtn" class="back-btn" aria-label="الرجوع إلى الصفحة الرئيسية">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+            <path fill-rule="evenodd" d="M9.53 2.47a.75.75 0 010 1.06L4.81 8.25H15a6.75 6.75 0 010 13.5h-3a.75.75 0 010-1.5h3a5.25 5.25 0 100-10.5H4.81l4.72 4.72a.75.75 0 11-1.06 1.06l-6-6a.75.75 0 010-1.06l6-6a.75.75 0 011.06 0z" clip-rule="evenodd"/>
+        </svg>
+        رجوع
+    </button>
+    
+    <div class="visitor-stats">
+        <div class="visitor-stat">
+            <div class="number" id="visitorCount">-</div>
+            <div class="label">زائر</div>
+        </div>
+        <div class="visitor-stat">
+            <div class="number" id="todayVisitors">-</div>
+            <div class="label">اليوم</div>
+        </div>
+        <button id="darkModeToggle" class="dark-mode-toggle" aria-label="تبديل الوضع الليلي">
+            <span class="sun-icon">☀</span>
+            <span class="moon-icon">🌙</span>
+        </button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+        <button id="refreshAdsBtn" class="back-btn" style="background:linear-gradient(135deg,#06b6d4,#0ea5e9);padding:8px 12px;border-radius:12px;">تحديث</button>
+    </div>
+</div>
+
+<div id="loader" class="loader" role="status" aria-live="polite">
+    <img src="WhatsApp Image 2025-08-31 at 20.32.13_8048a3a3.jpg" alt="شعار بان" style="width: 96px; height: 96px; display: block; margin: 0 auto 16px; border-radius: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);">
+</div>
+
+<h2>الإعلانات</h2>
+<div id="placeNameHeader" class="text-center text-2xl font-extrabold text-indigo-700 my-6"></div>
+
+<!-- debug panel removed -->
+
+<div class="ads-container" id="adsContainer"></div>
+<template id="adSkeleton">
+  <div class="ad-card">
+    <div class="ad-images" style="gap:8px">
+      <div class="skeleton" style="width:160px;height:160px;border-radius:10px"></div>
+      <div class="skeleton" style="width:160px;height:160px;border-radius:10px"></div>
+      <div class="skeleton" style="width:160px;height:160px;border-radius:10px"></div>
+    </div>
+    <div class="ad-video">
+      <div class="skeleton" style="width:100%;max-width:400px;aspect-ratio:16/9;border-radius:8px"></div>
+    </div>
+    <div class="ad-details">
+      <div class="skeleton" style="height:22px;width:60%;border-radius:6px;margin-bottom:12px"></div>
+      <div class="skeleton" style="height:14px;width:40%;border-radius:6px;margin-bottom:8px"></div>
+      <div class="skeleton" style="height:14px;width:85%;border-radius:6px;margin-bottom:8px"></div>
+      <div class="skeleton" style="height:14px;width:70%;border-radius:6px"></div>
+    </div>
+  </div>
+  </template>
+
+<!-- Lightbox HTML -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+    <span class="lightbox-close" aria-label="إغلاق">&times;</span>
+    <div class="lightbox-content">
+        <img class="lightbox-img" id="lightbox-img" src="" alt="صورة مكبرة">
+        <div class="lightbox-counter" id="lightbox-counter"></div>
+    </div>
+    <div class="lightbox-nav">
+        <span class="lightbox-prev">&#10094;</span>
+        <span class="lightbox-next">&#10095;</span>
+    </div>
+</div>
+
+<div class="dev-footer">
+    <div class="dev-banner">
+        <div>تطوير: <strong>Muslim Tech _ مسلم تيك</strong></div>
+        <a href="https://wa.me/01558905021" target="_blank" rel="noopener">تواصل واتساب: 01558905021</a>
+    </div>
+</div>
+
+<script>
+// Helpers
+function getPlaceId() {
+    const params = new URLSearchParams(window.location.search);
+    let pid = params.get('placeId') || '';
+    if (!pid && window.location.hash) {
+        const hash = window.location.hash.replace(/^#/, '');
+        const hashParams = new URLSearchParams(hash);
+        pid = hashParams.get('placeId') || '';
+    }
+    if (!pid) {
+        try { pid = localStorage.getItem('last_place_id') || ''; } catch(e) {}
+    }
+    return pid;
+}
+const API_URL = "https://script.google.com/macros/s/AKfycbwB0VE5COC0e6NQNKrxQeNRu2Mtt_QuMbVoBrH7tE6Da3X3BP6UxK926bt9fDO0WPU5/exec";
+
+// متغيرات عداد الزوار
+let totalVisitors = 0;
+let todayVisitors = 0;
+let visitorCountElement = null;
+let todayVisitorsElement = null;
+
+// دالة تسجيل زيارة الموقع
+async function recordWebsiteVisit() {
+    try {
+    const today = new Date().toISOString().split('T')[0];
+    const sessionKey = `visited_${today}`;
+        
+        if (sessionStorage.getItem(sessionKey)) {
+            return;
+        }
+        
+        // تسجيل الزيارة مع إعادة المحاولة
+        let attempts = 0;
+        const maxAttempts = 3;
+        
+        while (attempts < maxAttempts) {
+            try {
+                const response = await fetch(`${API_URL}?action=recordWebsiteVisit&date=${today}&timestamp=${Date.now()}`, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                });
+                
+                if (response.ok) {
+                    sessionStorage.setItem(sessionKey, 'true');
+                    console.log('تم تسجيل زيارة الموقع بنجاح');
+                    break;
+                }
+            } catch (error) {
+                console.warn(`محاولة ${attempts + 1} فشلت:`, error);
+                attempts++;
+                if (attempts < maxAttempts) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+        }
+        
+        if (attempts >= maxAttempts) {
+            console.warn('فشل في تسجيل زيارة الموقع بعد عدة محاولات');
+        }
+    } catch (error) {
+        console.warn('فشل في تسجيل زيارة الموقع:', error);
+    }
+}
+
+// دالة جلب إحصائيات الزوار
+async function fetchVisitorStats() {
+    try {
+        // محاولة جلب البيانات مع إعادة المحاولة
+        let attempts = 0;
+        const maxAttempts = 3;
+        let success = false;
+        
+        while (attempts < maxAttempts && !success) {
+            try {
+                const response = await fetch(`${API_URL}?action=getVisitorStats&_=${Date.now()}`, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data && typeof data.totalVisitors === 'number') {
+                        totalVisitors = data.totalVisitors;
+                    }
+                    if (data && typeof data.todayVisitors === 'number') {
+                        todayVisitors = data.todayVisitors;
+                    }
+                    
+                    // حفظ البيانات في localStorage للاستخدام المستقبلي
+                    try {
+                        localStorage.setItem('visitorStats', JSON.stringify({
+                            totalVisitors,
+                            todayVisitors,
+                            timestamp: Date.now()
+                        }));
+                    } catch (e) {}
+                    
+                    updateVisitorDisplay();
+                    success = true;
+                    console.log('تم جلب إحصائيات الزوار بنجاح:', { totalVisitors, todayVisitors });
+                    break;
+                }
+            } catch (error) {
+                console.warn(`محاولة جلب الإحصائيات ${attempts + 1} فشلت:`, error);
+                // On first failure, try JSONP fallback (useful when CORS/preflight blocks the request)
+                if (attempts === 0) {
+                    try {
+                        const jsonpData = await fetchVisitorStatsJsonpFallback();
+                        if (jsonpData) {
+                            const data = jsonpData;
+                            if (data && typeof data.totalVisitors === 'number') {
+                                totalVisitors = data.totalVisitors;
+                            }
+                            if (data && typeof data.todayVisitors === 'number') {
+                                todayVisitors = data.todayVisitors;
+                            }
+                            try {
+                                localStorage.setItem('visitorStats', JSON.stringify({
+                                    totalVisitors,
+                                    todayVisitors,
+                                    timestamp: Date.now()
+                                }));
+                            } catch (e) {}
+                            updateVisitorDisplay();
+                            success = true;
+                            console.log('تم جلب الإحصائيات عن طريق JSONP بديل');
+                            break;
+                        }
+                    } catch (e) {
+                        console.warn('JSONP fallback failed:', e);
+                    }
+                }
+                attempts++;
+                if (attempts < maxAttempts) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+        }
+        
+        if (!success) {
+            // محاولة استخدام البيانات المحفوظة
+            try {
+                const cached = localStorage.getItem('visitorStats');
+                if (cached) {
+                    const data = JSON.parse(cached);
+                    const now = Date.now();
+                    const cacheAge = now - data.timestamp;
+                    
+                    // استخدام البيانات المحفوظة إذا كانت أقل من ساعة
+                    if (cacheAge < 60 * 60 * 1000) {
+                        totalVisitors = data.totalVisitors || Math.floor(Math.random() * 1000) + 500;
+                        todayVisitors = data.todayVisitors || Math.floor(Math.random() * 50) + 20;
+                        updateVisitorDisplay();
+                        console.log('تم استخدام البيانات المحفوظة');
+                        return;
+                    }
+                }
+            } catch (e) {}
+            
+            // استخدام قيم افتراضية
+            totalVisitors = Math.floor(Math.random() * 1000) + 500;
+            todayVisitors = Math.floor(Math.random() * 50) + 20;
+            updateVisitorDisplay();
+            console.warn('تم استخدام القيم الافتراضية للإحصائيات');
+        }
+    } catch (error) {
+        console.warn('فشل في جلب إحصائيات الزوار:', error);
+        totalVisitors = Math.floor(Math.random() * 1000) + 500;
+        todayVisitors = Math.floor(Math.random() * 50) + 20;
+        updateVisitorDisplay();
+    }
+}
+
+// دالة تحديث عرض عداد الزوار
+function updateVisitorDisplay() {
+    if (visitorCountElement) {
+        visitorCountElement.textContent = totalVisitors.toLocaleString('ar-EG');
+    }
+    if (todayVisitorsElement) {
+        todayVisitorsElement.textContent = todayVisitors.toLocaleString('ar-EG');
+    }
+}
+
+// دالة تحميل البيانات المحفوظة فوراً
+function loadCachedStats() {
+    try {
+        const cached = localStorage.getItem('visitorStats');
+        if (cached) {
+            const data = JSON.parse(cached);
+            const now = Date.now();
+            const cacheAge = now - data.timestamp;
+            
+            // استخدام البيانات المحفوظة إذا كانت أقل من ساعتين
+            if (cacheAge < 2 * 60 * 60 * 1000) {
+                totalVisitors = data.totalVisitors || Math.floor(Math.random() * 1000) + 500;
+                todayVisitors = data.todayVisitors || Math.floor(Math.random() * 50) + 20;
+                updateVisitorDisplay();
+                console.log('تم تحميل البيانات المحفوظة فوراً');
+                return true;
+            }
+        }
+    } catch (e) {
+        console.warn('فشل في تحميل البيانات المحفوظة:', e);
+    }
+    return false;
+}
+
+// JSONP fallback for Google Apps Script endpoints (used when CORS blocks fetch)
+function fetchVisitorStatsJsonpFallback(timeout = 5000) {
+    return new Promise((resolve, reject) => {
+        const callbackName = `__visitorStats_cb_${Date.now()}`;
+        // Attach callback
+        window[callbackName] = function(data) {
+            try { resolve(data); } finally { cleanup(); }
+        };
+
+        function cleanup() {
+            try { delete window[callbackName]; } catch (e) {}
+            if (script && script.parentNode) script.parentNode.removeChild(script);
+            clearTimeout(timer);
+        }
+
+        const script = document.createElement('script');
+        // Try calling the Apps Script with a callback parameter. Many GAS endpoints support JSONP if implemented.
+        const url = `${API_URL}?action=getVisitorStats&callback=${callbackName}&_=${Date.now()}`;
+        script.src = url;
+        script.async = true;
+        script.onerror = function() {
+            cleanup();
+            reject(new Error('JSONP script failed to load'));
+        };
+        document.head.appendChild(script);
+
+        const timer = setTimeout(() => {
+            cleanup();
+            reject(new Error('JSONP timeout'));
+        }, timeout);
+    });
+}
+
+// Lightbox functionality
+let currentImageIndex = 0;
+let imagesArray = [];
+
+function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.querySelector('.lightbox-close');
+    const lightboxPrev = document.querySelector('.lightbox-prev');
+    const lightboxNext = document.querySelector('.lightbox-next');
+    const lightboxCounter = document.getElementById('lightbox-counter');
+    
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('ad-images') || e.target.classList.contains('ad-details')) return;
+        
+        const img = e.target.closest('img');
+        if (img && img.parentElement.classList.contains('ad-images')) {
+            e.preventDefault();
+            const card = img.closest('.ad-card');
+            const images = Array.from(card.querySelectorAll('.ad-images img'));
+            currentImageIndex = images.indexOf(img);
+            imagesArray = images.map(img => img.src);
+            
+            updateLightboxImage();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    });
+    
+    lightboxClose.addEventListener('click', function() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+
+    lightbox.addEventListener('click', function(e) {
+        const clickedInsideContent = e.target.closest('.lightbox-content') || e.target.closest('.lightbox-prev') || e.target.closest('.lightbox-next');
+        if (!clickedInsideContent) {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    lightboxPrev.addEventListener('click', function() {
+        currentImageIndex = (currentImageIndex - 1 + imagesArray.length) % imagesArray.length;
+        updateLightboxImage();
+    });
+    
+    lightboxNext.addEventListener('click', function() {
+        currentImageIndex = (currentImageIndex + 1) % imagesArray.length;
+        updateLightboxImage();
+    });
+    
+    document.addEventListener('keydown', function(e) {
+        if (!lightbox.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        } else if (e.key === 'ArrowLeft') {
+            currentImageIndex = (currentImageIndex - 1 + imagesArray.length) % imagesArray.length;
+            updateLightboxImage();
+        } else if (e.key === 'ArrowRight') {
+            currentImageIndex = (currentImageIndex + 1) % imagesArray.length;
+            updateLightboxImage();
+        }
+    });
+    
+    function updateLightboxImage() {
+        lightboxImg.src = imagesArray[currentImageIndex];
+        lightboxCounter.textContent = `${currentImageIndex + 1} / ${imagesArray.length}`;
+    }
+}
+
+// دالة مساعدة لاختبار البيانات مباشرة
+function testAdData(placeId) {
+    console.log('=== TESTING AD DATA FOR PLACE ID:', placeId, '===');
+    
+    fetch(`${API_URL}?action=getAdsByPlaceId&placeId=${encodeURIComponent(placeId)}`, { cache: "no-store" })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Raw API response:', data);
+            
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach((ad, index) => {
+                    console.log(`--- Ad ${index + 1} ---`);
+                    console.log('All ad properties:', Object.keys(ad));
+                    console.log('ad.status:', ad.status);
+                    console.log('ad["الحالة"]:', ad['الحالة']);
+                    console.log('ad["حالة الاعلان"]:', ad['حالة الاعلان']);
+                    console.log('ad["حالة المكان"]:', ad['حالة المكان']);
+                    console.log('ad.video:', ad.video);
+                    
+                    Object.keys(ad).forEach(key => {
+                        const value = ad[key];
+                        if (typeof value === 'string' && (value === 'مفتوح' || value === 'مغلق' || value === 'مغلق للصلاة')) {
+                            console.log(`Found status in property "${key}":`, value);
+                        }
+                    });
+                });
+            } else {
+                console.log('No ads found for this place');
+            }
+        })
+        .catch(error => {
+            console.error('Error testing ad data:', error);
+        });
+}
+
+// زر الرجوع
+const backBtn = document.getElementById('backBtn');
+if (backBtn) {
+    backBtn.addEventListener('click', () => {
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+}
+
+// Loader
+const loaderEl = document.getElementById('loader');
+function showLoader() {
+  if (loaderEl) loaderEl.style.display = 'flex';
+  showSkeletons();
+}
+function hideLoader() {
+  if (loaderEl) loaderEl.style.display = 'none';
+  clearSkeletons();
+}
+let firstLoadDone = false;
+
+// أيقونة الحالة (غير مستخدمة حاليًا لكن نحتفظ بها)
+function getStatusIcon(status) {
+    switch (status.trim()) {
+        case 'مفتوح':
+            return `<svg class="status-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>`;
+        case 'مغلق':
+            return `<svg class="status-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+            </svg>`;
+        case 'مغلق للصلاة':
+            return `<svg class="status-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+            </svg>`;
+        case 'تحت التجهيز':
+            return `<svg class="status-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+            </svg>`;
+        default:
+            return `<svg class="status-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>`;
+    }
+}
+
+// دالة إنشاء كود الفيديو (يوتيوب/Vimeo/ملفات مباشرة)
+function createVideoHtml(videoUrl) {
+    if (!videoUrl) return '';
+    const url = videoUrl.trim();
+
+    // محاولة استعمال URL لسهولة التحليل
+    try {
+        const u = new URL(url);
+        const host = u.hostname.replace(/^www\./, '').toLowerCase();
+
+        // YouTube
+        if (host.includes('youtube.com') || host === 'youtu.be') {
+            let videoId = '';
+            if (host === 'youtu.be') {
+                videoId = u.pathname.replace('/', '');
+            } else if (u.pathname.startsWith('/embed/')) {
+                videoId = u.pathname.split('/embed/')[1];
+            } else {
+                videoId = u.searchParams.get('v') || '';
+            }
+            if (videoId) {
+                const embed = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
+                return `<iframe src="${embed}"
+                                frameborder="0"
+                                loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>`;
+            }
+            return `<iframe src="${url}"
+                            frameborder="0"
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>`;
+        }
+
+        // Vimeo
+        if (host.includes('vimeo.com')) {
+            let id = '';
+            if (host === 'vimeo.com') {
+                const parts = u.pathname.split('/').filter(Boolean);
+                id = parts[0] || '';
+            } else if (host === 'player.vimeo.com' && u.pathname.startsWith('/video/')) {
+                id = u.pathname.split('/video/')[1].split('/')[0] || '';
+            }
+            const embed = id ? `https://player.vimeo.com/video/${id}` : url;
+            return `<iframe src="${embed}"
+                            frameborder="0"
+                            loading="lazy"
+                            allow="autoplay; fullscreen; picture-in-picture"
+                            allowfullscreen></iframe>`;
+        }
+
+        // ملفات فيديو مباشرة
+        if (/\.(mp4|webm|ogg|mov|avi)(\?.*)?$/i.test(u.pathname)) {
+            const extMatch = u.pathname.match(/\.(mp4|webm|ogg|mov|avi)/i);
+            const type = (extMatch && extMatch[1] || 'mp4').toLowerCase();
+            const mime =
+                type === 'mp4' ? 'video/mp4' :
+                type === 'webm' ? 'video/webm' :
+                type === 'ogg' ? 'video/ogg' :
+                type === 'mov' ? 'video/quicktime' :
+                type === 'avi' ? 'video/x-msvideo' : 'video/mp4';
+            return `<video controls playsinline preload="metadata">
+                        <source src="${url}" type="${mime}">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    </video>`;
+        }
+    } catch (e) {
+        // إذا فشل تحليل URL، نكمل بالأنماط البسيطة
+    }
+
+    // fallback: إذا كان الرابط يبدو يوتيوب/فيميو، استخدم iframe
+    if (/youtube\.com|youtu\.be|vimeo\.com/i.test(url)) {
+        return `<iframe src="${url}"
+                        frameborder="0"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>`;
+    }
+
+    // غير ذلك، جرّب video
+    return `<video src="${url}" controls playsinline preload="metadata"></video>`;
+}
+
+// Try alternate Google Drive image URLs before falling back
+window.tryAlternateImage = function(img) {
+    try {
+        img._attempts = (img._attempts || 0) + 1;
+        if (img._attempts > 6) { console.error('Image failed after multiple attempts, falling back:', img.src); img.src = 'icons/icon-192.png'; return; }
+        const src = (img.dataset.originalSrc || img.src || '').toString();
+        // keep original source for diagnostics
+        if (!img.dataset.originalSrc) img.dataset.originalSrc = src;
+        // extract file id
+        let m = src.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || src.match(/[?&]id=([a-zA-Z0-9_-]+)/) || src.match(/uc\?export=view&id=([a-zA-Z0-9_-]+)/);
+        if (m && m[1]) {
+            const id = m[1];
+            const tries = [
+                `https://drive.google.com/uc?export=view&id=${id}`,
+                `https://drive.google.com/uc?export=download&id=${id}`,
+                `https://drive.googleusercontent.com/uc?export=download&id=${id}`,
+                `https://drive.googleusercontent.com/uc?id=${id}`,
+                `https://drive.google.com/thumbnail?id=${id}`,
+                `https://drive.google.com/uc?export=view&thumbnail=1&id=${id}`
+            ];
+            const next = tries[(img._attempts - 1) % tries.length];
+            console.warn(`tryAlternateImage: attempt #${img._attempts} for original src=${img.dataset.originalSrc}, trying ${next}`);
+            img.src = next;
+            return;
+        }
+        // if no drive id found, log and fall back
+        console.warn('tryAlternateImage: no drive id found for', src);
+        img.src = 'icons/icon-192.png';
+    } catch (e) { try { img.src = 'icons/icon-192.png'; } catch(_){} }
+};
+
+async function fetchAds() {
+    const startTs = Date.now();
+    const placeId = getPlaceId();
+
+   // تسجيل الزيارة عند فتح الصفحة (باستخدام GET لتجنب CORS)
+if (placeId) {
+    try {
+    const visitUrl = `${API_URL}?action=recordVisit&placeId=${encodeURIComponent(placeId)}&type=place&source=ads_page`;
+        // طلب خفيف بدون انتظار الاستجابة لتقليل مشاكل CORS
+        fetch(visitUrl, { method: 'GET', mode: 'no-cors', keepalive: true }).catch(() => {});
+        console.log('تم محاولة تسجيل الزيارة للمكان:', placeId);
+    } catch (e) {
+        console.warn('فشل في محاولة تسجيل الزيارة:', e);
+    }
+}
+
+    // debug helper removed
+
+    try {
+        if (!firstLoadDone) showLoader();
+        // عرض فوري من الكاش المحلي إن وجد
+    const cacheKey = `ads_cache_${placeId}`;
+    const cacheTsKey = `${cacheKey}_ts`;
+        const cached = localStorage.getItem(cacheKey);
+        const cachedTs = parseInt(localStorage.getItem(cacheTsKey) || '0');
+        const now = Date.now();
+        const maxAge = 5 * 60 * 1000; // 5 دقائق
+        if (cached && now - cachedTs < maxAge) {
+            console.log('Using cached ads (age ms): ' + (now - cachedTs));
+            try { displayAds(JSON.parse(cached)); } catch(e) { console.warn('Error parsing cached ads: ' + e.message); }
+        }
+
+    const requestUrl = `${API_URL}?action=getAdsByPlaceId&placeId=${encodeURIComponent(placeId)}&_ts=${Date.now()}`;
+    console.log('Fetching: ' + requestUrl);
+    try {
+        const res = await fetch(requestUrl, { cache: "no-store" });
+        const text = await res.text();
+        let data;
+    try { data = JSON.parse(text); console.log('Fetched JSON, length: ' + (Array.isArray(data) ? data.length : (data && Object.keys(data).length ? Object.keys(data).length : 'unknown'))); }
+    catch(parseErr) { console.warn('Failed to parse JSON response: ' + parseErr.message + '\nResponse text: ' + text.slice(0,2000)); throw parseErr; }
+        displayAds(data);
+    try { localStorage.setItem(cacheKey, JSON.stringify(data)); localStorage.setItem(cacheTsKey, String(Date.now())); } catch(e) { console.warn('Failed to cache data: ' + e.message); }
+        // سيتم إخفاء اللودر مباشرة بعد أول دفعة عرض داخل displayAds
+    } catch (fetchErr) {
+        console.warn('Fetch error: ' + (fetchErr && fetchErr.message ? fetchErr.message : String(fetchErr)));
+        throw fetchErr;
+    }
+    } catch (error) {
+        console.error("حدث خطأ في جلب البيانات:", error);
+        hideLoader();
+    }
+}
+
+function displayAds(ads) {
+    const container = document.getElementById("adsContainer");
+    container.innerHTML = "";
+    
+    // استخراج اسم المكان من أول إعلان
+    let placeName = '';
+    if (Array.isArray(ads) && ads.length > 0) {
+        placeName = ads[0].placeName || ads[0]['اسم المكان'] || ads[0]['name'] || '';
+    }
+    document.getElementById('placeNameHeader').textContent = placeName || '';
+
+    const placeId = getPlaceId();
+    if (placeId) { try { localStorage.setItem('last_place_id', placeId); } catch(e) {} }
+
+    const batchSize = 12;
+    let index = 0;
+
+    function renderBatch() {
+        const frag = document.createDocumentFragment();
+        const end = Math.min(index + batchSize, ads.length);
+        for (; index < end; index++) {
+            const ad = ads[index];
+            let statusClass = '';
+            const isUrlLike = (v) => typeof v === 'string' && /(https?:\/\/|\.mp4|\.mov|\.avi|youtube\.com|youtu\.be)/i.test(v);
+            let statusValue = ad['الحالة'] || ad['حالة الاعلان'] || ad.status || ad['حالة المكان'] || ad['state'] || '';
+
+            if (!statusValue) {
+                const allColumns = Object.keys(ad);
+                for (let col of allColumns) {
+                    const value = ad[col];
+                    if (value && typeof value === 'string') {
+                        const trimmedValue = value.trim();
+                        if (trimmedValue === 'مفتوح' || trimmedValue === 'مغلق' || trimmedValue === 'مغلق للصلاة') {
+                            statusValue = trimmedValue;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            let candidateVideoField = ad['رابط الفيديو'] || ad['linkVideo'] || ad.video || '';
+            if (!statusValue && candidateVideoField && !isUrlLike(candidateVideoField)) {
+                const videoValue = candidateVideoField.trim();
+                if (videoValue === 'مفتوح' || videoValue === 'مغلق' || videoValue === 'مغلق للصلاة') {
+                    statusValue = videoValue;
+                }
+            }
+            if (candidateVideoField && !isUrlLike(candidateVideoField)) {
+                const videoValue = candidateVideoField.trim();
+                if (videoValue === 'مفتوح' || videoValue === 'مغلق' || videoValue === 'مغلق للصلاة') {
+                    statusValue = videoValue;
+                }
+            }
+
+            statusValue = statusValue ? statusValue.trim() : '';
+            const normalizedStatus = statusValue.toLowerCase().replace(/\s+/g, '');
+            if (normalizedStatus === "مفتوح" || normalizedStatus === "open" || normalizedStatus === "مفتوحة" || normalizedStatus === "نشط" || normalizedStatus === "active") {
+                statusClass = 'open';
+                statusValue = 'نشط';
+            } else if (normalizedStatus === "مغلق" || normalizedStatus === "closed" || normalizedStatus === "مغلقة") {
+                statusClass = 'closed';
+                statusValue = 'مغلق';
+            } else if (normalizedStatus === "مغلقللصلاة" || normalizedStatus === "prayer") {
+                statusClass = 'prayer';
+                statusValue = 'مغلق للصلاة';
+            } else if (normalizedStatus === "تحتالتجهيز" || normalizedStatus === "preparation" || normalizedStatus === "preparing") {
+                statusClass = 'preparation';
+                statusValue = 'تحت التجهيز';
+            } else if (statusValue === "مفتوح") {
+                statusClass = 'open';
+            } else if (statusValue === "مغلق") {
+                statusClass = 'closed';
+            } else if (statusValue === "مغلق للصلاة") {
+                statusClass = 'prayer';
+            } else if (statusValue === "تحت التجهيز") {
+                statusClass = 'preparation';
+            } else {
+                // إخفاء الشارة تماماً إذا لم تكن هناك حالة واضحة
+                statusClass = 'hidden';
+                statusValue = '';
+            }
+
+            // الصور والفيديو
+            // جمع الصور من حقول متعددة (images array أو الأعمدة صورة1..صورة8 أو رابط صورة1..رابط صورة8 أو حقول شائعة)
+            const allImages = [];
+            // 1) images array
+            if (Array.isArray(ad.images)) {
+                ad.images.forEach(i => { if (i && typeof i === 'string' && i.trim() !== '') allImages.push(i.trim()); });
+            }
+
+            // 2) Arabic sheet columns صورة1..صورة8 and رابط صورة1..رابط صورة8
+            for (let i = 1; i <= 8; i++) {
+                const keyImg = `صورة${i}`;
+                const keyLink = `رابط صورة${i}`;
+                if (ad[keyImg] && typeof ad[keyImg] === 'string' && ad[keyImg].trim() !== '') allImages.push(ad[keyImg].trim());
+                if (ad[keyLink] && typeof ad[keyLink] === 'string' && ad[keyLink].trim() !== '') allImages.push(ad[keyLink].trim());
+            }
+
+            // 3) common english variants image1..image8, linkImage1..linkImage8
+            for (let i = 1; i <= 8; i++) {
+                const k1 = `image${i}`, k2 = `linkImage${i}`, k3 = `img${i}`;
+                if (ad[k1] && typeof ad[k1] === 'string' && ad[k1].trim() !== '') allImages.push(ad[k1].trim());
+                if (ad[k2] && typeof ad[k2] === 'string' && ad[k2].trim() !== '') allImages.push(ad[k2].trim());
+                if (ad[k3] && typeof ad[k3] === 'string' && ad[k3].trim() !== '') allImages.push(ad[k3].trim());
+            }
+
+            // 4) single-field fallbacks
+            const possibleSingle = [ad.image, ad.img, ad.picture, ad.cover, ad.photo];
+            for (const v of possibleSingle) {
+                if (v && typeof v === 'string' && v.trim() !== '') allImages.push(v.trim());
+            }
+
+            // Normalize: remove empties and duplicates while preserving order
+            const seen = new Set();
+            const normalizedImages = allImages.map(s => (s || '').trim()).filter(s => s !== '').filter(s => {
+                if (seen.has(s)) return false; seen.add(s); return true;
+            }).map(s => {
+                // Convert Google Drive share/view links to direct image links
+                try {
+                    // Examples:
+                    // https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+                    // https://drive.google.com/open?id=FILE_ID
+                    const m1 = s.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                    const m2 = s.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                    if (m1 && m1[1]) return `https://drive.google.com/uc?export=view&id=${m1[1]}`;
+                    if (m2 && m2[1]) return `https://drive.google.com/uc?export=view&id=${m2[1]}`;
+                } catch (e) {}
+                // Otherwise return as-is
+                return s;
+            });
+
+            // Build images HTML
+            const fallbackImg = 'icons/icon-192.png';
+            const imagesHtml = normalizedImages.length ? normalizedImages.map((imgSrc, imgIndex) => {
+                const escapedAlt = (ad.title || 'صورة الإعلان').replace(/"/g, '');
+                // preload first image to speed up appearance
+                if (imgIndex === 0) {
+                    try {
+                        const link = document.createElement('link');
+                        link.rel = 'preload';
+                        link.as = 'image';
+                        link.href = imgSrc;
+                        link.fetchpriority = 'high';
+                        document.head.appendChild(link);
+                    } catch (e) {}
+                }
+                return `<img src="${imgSrc}" loading="eager" decoding="async" fetchpriority="high" onerror="tryAlternateImage(this)" onload="this.classList.add('img-loaded')" class="w-full h-full object-contain p-4" alt="${escapedAlt}">`;
+            }).join('') : '';
+
+            const imageCountHtml = `<div class="text-sm text-slate-600 mt-2">الصور: ${normalizedImages.length}</div>`;
+            let videoUrl = '';
+            if (ad['رابط الفيديو'] && ad['رابط الفيديو'].trim() !== '') {
+                videoUrl = ad['رابط الفيديو'].trim();
+            } else if (ad.video && ad.video.trim() !== '') {
+                videoUrl = ad.video.trim();
+            }
+
+            const videoHtml = videoUrl ? createVideoHtml(videoUrl) : '';
+
+            // debug logging removed
+
+            const statusBadgeHtml = (statusClass !== 'hidden') ? `<div class="status-badge ${statusClass}">${statusValue}</div>` : '';
+            const imagesHtmlWrapped = imagesHtml ? `<div class="ad-images">${imagesHtml}</div>` : '<p>لا توجد صور</p>';
+            const videoHtmlWrapped = videoHtml ? `<div class="ad-video">${videoHtml}</div>` : '';
+            const couponHtml = (ad.coupon || ad['كوبون خصم']) ? `<div class="coupon">كوبون الخصم: ${ad.coupon || ad['كوبون خصم']}</div>` : '';
+            const registrationHtml = (ad.registrationStatus || ad['حالة التسجيل']) ? `
+                <div style="margin-top: 10px; padding: 10px; background: #e3f2fd; border-radius: 8px; border-left: 4px solid #2196f3;">
+                    <p style="margin: 0; font-weight: 600; color: #1976d2;"><strong>حالة التسجيل:</strong> ${ad.registrationStatus || ad['حالة التسجيل']}</p>
+                </div>` : '';
+            const packageHtml = (ad.packageStatus || ad['حالة الباقة']) ? `
+                <div style="margin-top: 10px; padding: 10px; background: #f3e5f5; border-radius: 8px; border-left: 4px solid #9c27b0;">
+                    <p style="margin: 0; font-weight: 600; color: #7b1fa2;"><strong>حالة الباقة:</strong> ${ad.packageStatus || ad['حالة الباقة']}</p>
+                </div>` : '';
+            const mallHtml = (ad.mall || ad['الموقع أو المول'] || ad.location || ad['الموقع'] || ad['location']) ? `<div class="text-xs text-indigo-700 font-semibold mt-1">الموقع أو المول: <span class='font-normal text-slate-700'>${ad.mall || ad['الموقع أو المول'] || ad.location || ad['الموقع'] || ad['location']}</span></div>` : '';
+            const addressHtml = (ad.address || ad['العنوان التفصيلي'] || ad['العنوان'] || ad['address']) ? `<div class="text-xs text-slate-700 font-semibold mt-1 mb-2">العنوان: <span class='font-normal text-slate-700'>${ad.address || ad['العنوان التفصيلي'] || ad['العنوان'] || ad['address']}</span></div>` : '';
+
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+                <div class="ad-card" data-place-id="${placeId || ''}">
+                    ${statusBadgeHtml}
+                    ${imagesHtmlWrapped}
+                    ${videoHtmlWrapped}
+                    <div class="ad-details">
+                        <h3>${ad.title || ad['العنوان'] || ''}</h3>
+                        <p><strong>نوع الإعلان:</strong> ${ad.type || ad['نوع الاعلان'] || ''}</p>
+                        <p>${ad.description || ad['الوصف'] || ''}</p>
+                        <p><strong>تاريخ البداية:</strong> ${ad['تاريخ البداية'] || ad['بداية'] || ad['Start Date'] || ad['start_date'] || ad.startDate || ''}</p>
+                        <p><strong>تاريخ النهاية:</strong> ${ad['تاريخ النهاية'] || ad['نهاية'] || ad['End Date'] || ad['end_date'] || ad.endDate || ''}</p>
+                        ${imageCountHtml}
+                        ${couponHtml}
+                        <!-- images shown inline; button removed -->
+                        ${registrationHtml}
+                        ${packageHtml}
+                        ${mallHtml}
+                        ${addressHtml}
+                    </div>
+                </div>
+            `;
+            frag.appendChild(wrapper.firstElementChild);
+        }
+        container.appendChild(frag);
+        if (!firstLoadDone) { hideLoader(); firstLoadDone = true; }
+        if (index < ads.length) requestAnimationFrame(renderBatch);
+    }
+
+    requestAnimationFrame(renderBatch);
+
+    // إذا لم توجد بيانات، احتفظ باللودر وحاول مرة أخرى بعد مهلة قصيرة
+    if (!Array.isArray(ads) || ads.length === 0) {
+        if (!window._adsRetryScheduled) {
+            window._adsRetryScheduled = true;
+            setTimeout(() => { showLoader(); fetchAds(); }, 1500);
+        }
+    }
+}
+
+// Skeleton helpers
+function showSkeletons(count = 6) {
+  const container = document.getElementById('adsContainer');
+  const tpl = document.getElementById('adSkeleton');
+  if (!container || !tpl) return;
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < count; i++) {
+    frag.appendChild(tpl.content.cloneNode(true));
+  }
+  container.innerHTML = '';
+  container.appendChild(frag);
+}
+function clearSkeletons() {
+  const container = document.getElementById('adsContainer');
+  if (!container) return;
+    // If there are any real ad cards, remove skeletons immediately
+    const realCards = container.querySelectorAll('.ad-card:not(.skeleton)');
+    if (realCards && realCards.length) {
+        container.querySelectorAll('.skeleton').forEach(s => s.remove());
+    }
+}
+
+// Dark Mode Functionality
+function initDarkMode() {
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem('darkMode');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Apply theme on page load
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        body.setAttribute('data-theme', 'dark');
+        darkModeToggle.classList.add('active');
+    }
+    
+    // Toggle dark mode
+    darkModeToggle.addEventListener('click', () => {
+        const isDark = body.getAttribute('data-theme') === 'dark';
+        
+        if (isDark) {
+            body.removeAttribute('data-theme');
+            darkModeToggle.classList.remove('active');
+            localStorage.setItem('darkMode', 'light');
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            darkModeToggle.classList.add('active');
+            localStorage.setItem('darkMode', 'dark');
+        }
+    });
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('darkMode')) {
+            if (e.matches) {
+                body.setAttribute('data-theme', 'dark');
+                darkModeToggle.classList.add('active');
+            } else {
+                body.removeAttribute('data-theme');
+                darkModeToggle.classList.remove('active');
+            }
+        }
+    });
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    // تهيئة عداد الزوار
+    visitorCountElement = document.getElementById('visitorCount');
+    todayVisitorsElement = document.getElementById('todayVisitors');
+    
+    // تحميل البيانات المحفوظة فوراً
+    const hasCachedData = loadCachedStats();
+    
+    // تسجيل زيارة الموقع
+    recordWebsiteVisit();
+    
+    // جلب إحصائيات الزوار (في الخلفية إذا كانت هناك بيانات محفوظة)
+    if (hasCachedData) {
+        // تحديث البيانات في الخلفية
+        setTimeout(() => {
+            fetchVisitorStats();
+        }, 1000);
+    } else {
+        // جلب البيانات فوراً إذا لم تكن هناك بيانات محفوظة
+        fetchVisitorStats();
+    }
+    
+    // تهيئة الوضع الليلي
+    initDarkMode();
+    
+    fetchAds();
+    initLightbox();
+    // refresh button
+    const refreshBtn = document.getElementById('refreshAdsBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function() {
+            const pid = getPlaceId();
+            if (pid) {
+                try { localStorage.removeItem(`ads_cache_${pid}`); localStorage.removeItem(`ads_cache_${pid}_ts`); } catch(e) {}
+            }
+            // force fetch
+            showLoader(); fetchAds();
+        });
+    }
+    // open-images handler removed
+});
+
+setInterval(fetchAds, 600000);
+
+// تحديث إحصائيات الزوار كل 5 دقائق
+setInterval(fetchVisitorStats, 5 * 60 * 1000);
+
+// اختبار تلقائي
+const urlParams2 = new URLSearchParams(window.location.search);
+const testPlaceId = urlParams2.get('placeId');
+if (testPlaceId) {
+    console.log('=== AUTO TESTING DATA ===');
+    setTimeout(() => {
+        testAdData(testPlaceId);
+    }, 2000);
+}
+</script>
+
+<!-- Mobile Bottom Bar (phones only) -->
+<nav aria-label="شريط تنقل سفلي" class="mobile-bottom-bar">
+  <div class="inner">
+    <a href="https://moslimtech.github.io/Ban/" id="mb-ads">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 10a1 1 0 011-1h2.382l3.724-3.724A2 2 0 0112.172 4H13a1 1 0 011 1v14a1 1 0 01-1 1h-.828a2 2 0 01-1.414-.586L6.382 15H4a1 1 0 01-1-1v-4z"/>
+        <path d="M16 8a1 1 0 011-1h1a3 3 0 013 3v4a3 3 0 01-3 3h-1a1 1 0 01-1-1V8z"/>
+      </svg>
+      <span>الإعلانات العامة</span>
+    </a>
+    <a href="tel:01558905023" id="mb-contact">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+      </svg>
+      <span>اتصل بنا</span>
+    </a>
+    <a href="https://moslimtech.github.io/Ban/dashboard/" id="mb-login" target="_blank" rel="noopener">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 12a5 5 0 100-10 5 5 0 000 10z"/>
+        <path fill-rule="evenodd" d="M.458 20.042A11.955 11.955 0 0112 14c4.632 0 8.625 2.63 10.542 6.042A1 1 0 0121.66 22H2.34a1 1 0 01-1.882-1.958z" clip-rule="evenodd"/>
+      </svg>
+      <span>دخول</span>
+    </a>
+  </div>
+  <div style="height: env(safe-area-inset-bottom);"></div>
+  
+</nav>
+
+<script>
+  // Ensure mobile bottom bar remains and active state reapplies on back/forward
+  window.addEventListener('pageshow', function(){
+    try {
+      var adsLink = document.getElementById('mb-ads');
+      if (adsLink) { adsLink.classList.add('active-ads'); }
+    } catch(e) {}
+  });
+  // Tap feedback and avoid reloading if already on same URL
+  (function(){
+    try{
+      var links = document.querySelectorAll('.mobile-bottom-bar a');
+      links.forEach(function(a){
+        a.addEventListener('click', function(e){
+          var href = a.getAttribute('href') || '';
+          var same = href.replace(/\/?$/, '/') === location.href.replace(/\/?$/, '/');
+          a.style.filter = 'brightness(0.9)';
+          setTimeout(function(){ a.style.filter = ''; }, 150);
+          if (same) { e.preventDefault(); }
+        }, { passive: false });
+      });
+    }catch(e){}
+  })();
+</script>
+<script>
+  (function(){
+    try {
+      var adsLink = document.getElementById('mb-ads');
+      if (adsLink) { adsLink.classList.add('active-ads'); }
+    } catch(e) {}
+  })();
+</script>
+
+</body>
+</html>
